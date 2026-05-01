@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Tic Tac Toe</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Super Tic Tac Toe</h1>
+    <p class="tagline">Ultimate Tic Tac Toe - 3×3 boards of 3×3!</p>
+    
+    <form action="/setup" method="POST" class="setup-form">
+      <div class="form-group">
+        <label>Game Mode</label>
+        <select name="mode" id="mode">
+          <option value="hotseat">Hot Seat (2 Players)</option>
+          <option value="ai">vs AI</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Player 1 Name</label>
+        <input type="text" name="player1" placeholder="Enter name" required>
+      </div>
+      
+      <div class="form-group" id="player2-group">
+        <label>Player 2 Name</label>
+        <input type="text" name="player2" placeholder="Enter name">
+      </div>
+      
+      <button type="submit" class="btn">Start Game</button>
+    </form>
+    
+    <div class="rules">
+      <h3>Rules</h3>
+      <ul>
+        <li>3×3 grid of 3×3 boards</li>
+        <li>Win a small board to claim that cell in the big board</li>
+        <li><strong>Special:</strong> Next player must play in the board matching their move position!</li>
+        <li>First to win 3 in a row on the big board wins!</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('mode').addEventListener('change', function() {
+      const p2group = document.getElementById('player2-group');
+      p2group.style.display = this.value === 'ai' ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>

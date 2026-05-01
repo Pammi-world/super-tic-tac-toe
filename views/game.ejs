@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Tic Tac Toe - Game</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Super Tic Tac Toe</h1>
+    
+    <% if (game.winner) { %>
+      <div class="winner">
+        <h2>🏆 <%= game.players.find(p => p.symbol === game.winner).name %> Wins!</h2>
+      </div>
+    <% } else if (game.isDraw) { %>
+      <div class="draw">
+        <h2>🤝 It's a Draw!</h2>
+      </div>
+    <% } else { %>
+      <div class="turn">
+        <h2><%= game.players[game.currentPlayer].name %>'s Turn (<%= game.players[game.currentPlayer].symbol %>)</h2>
+      </div>
+    <% } %>
+    
+    <div class="game-info">
+      <div>Mode: <%= game.mode === 'ai' ? 'vs AI' : 'Hot Seat' %></div>
+      <div class="players">
+        <span class="p1"><%= game.players[0].name %> (X)</span> vs 
+        <span class="p2"><%= game.players[1].name %> (<%= game.mode === 'ai' ? 'O' : 'O' %>)</span>
+      </div>
+    </div>
+    
+    <div class="super-board">
+      <% for (let b = 0; b < 9; b++) { %>
+        <div class="small-board <% if (game.activeBoard === b) { %>active<% } %> <% if (game.board[b][0][0] === 'X') { %>won-x<% } else if (game.board[b][0][0] === 'O') { %>won-o<% } else if (game.board[b][0][0] === 'D') { %>draw<% } %>">
+          <% for (let c = 0; c < 9; c++) { %>
+            <% const row = Math.floor(c / 3); const col = c % 3; %>
+            <% const cell = game.board[b][row][col]; %>
+            <% const isDisabled = (game.activeBoard !== null && game.activeBoard !== b) || cell !== null; %>
+            <% if (!isDisabled && !game.winner && !game.isDraw) { %>
+              <form action="/play" method="POST" style="display:contents">
+                <input type="hidden" name="board" value="<%= b %>">
+                <input type="hidden" name="cell" value="<%= c %>">
+                <button type="submit" class="cell <%= cell ? cell.toLowerCase() : '' %>"><%= cell || '' %></button>
+              </form>
+            <% } else { %>
+              <button class="cell <%= cell ? cell.toLowerCase() : '' %>" disabled><%= cell || '' %></button>
+            <% } %>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+    
+    <a href="/restart" class="btn restart">🔄 Restart</a>
+    <a href="/" class="btn new-game">🏠 New Game</a>
+  </div>
+</body>
+</html>
