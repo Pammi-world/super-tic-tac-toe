@@ -11,9 +11,15 @@ app.set('views', './views');
 app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
 
+// Types
+/** @typedef {{ name: string, symbol: string }} Player */
+/** @typedef {{ players: Player[], currentPlayer: number, board: (string|null)[][][][], activeBoard: number|null, winner: string|null, isDraw: boolean, mode: string }} Game */
+
 // Game state (in-memory for MVP)
+/** @type {Game|null} */
 let game = null;
 
+/** @returns {Game} */
 function initGame(mode = 'hotseat') {
   return {
     players: [
@@ -27,6 +33,29 @@ function initGame(mode = 'hotseat') {
     isDraw: false,
     mode
   };
+}
+
+/** @param {(string|null)[][]} board @returns {string|null} */
+function checkBoardWin(board) {
+  const lines = [
+    [[0,0], [0,1], [0,2]],
+    [[1,0], [1,1], [1,2]],
+    [[2,0], [2,1], [2,2]],
+    [[0,0], [1,0], [2,0]],
+    [[0,1], [1,1], [2,1]],
+    [[0,2], [1,2], [2,2]],
+    [[0,0], [1,1], [2,2]],
+    [[0,2], [1,1], [2,0]]
+  ];
+
+  for (const line of lines) {
+    const [a, b, c] = line;
+    const v = board[a[0]][a[1]];
+    if (v && v === board[b[0]][b[1]] && v === board[c[0]][c[1]]) {
+      return v;
+    }
+  }
+  return null;
 }
 
 // Routes
@@ -101,28 +130,6 @@ app.post('/play', (req, res) => {
 
   res.redirect('/game');
 });
-
-function checkBoardWin(board) {
-  const lines = [
-    [[0,0], [0,1], [0,2]],
-    [[1,0], [1,1], [1,2]],
-    [[2,0], [2,1], [2,2]],
-    [[0,0], [1,0], [2,0]],
-    [[0,1], [1,1], [2,1]],
-    [[0,2], [1,2], [2,2]],
-    [[0,0], [1,1], [2,2]],
-    [[0,2], [1,1], [2,0]]
-  ];
-
-  for (const line of lines) {
-    const [a, b, c] = line;
-    const v = board[a[0]][a[1]];
-    if (v && v === board[b[0]][b[1]] && v === board[c[0]][c[1]]) {
-      return v;
-    }
-  }
-  return null;
-}
 
 app.get('/restart', (req, res) => {
   const mode = game?.mode || 'hotseat';
