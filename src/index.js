@@ -1,7 +1,15 @@
 const express = require('express');
+const http = require('http');
+const { initWebSocketServer, getActiveLobbies } = require('./lib/websocket');
+const { createPlayer, getPlayer, updatePlayer, getPlayerStats, getAvatars, getLeaderboard, updatePlayerStats } = require('./lib/players');
+const authRouter = require('./lib/auth');
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 3001;
+
+// Initialize WebSocket server
+initWebSocketServer(server);
 
 // View engine
 app.set('view engine', 'ejs');
@@ -9,7 +17,11 @@ app.set('views', './views');
 
 // Static files
 app.use(express.static('./public'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Authentication routes
+app.use('/api/auth', authRouter);
 
 // Types
 /** @typedef {{ name: string, symbol: string }} Player */
@@ -58,9 +70,68 @@ function checkBoardWin(board) {
   return null;
 }
 
+// API Routes for Online Multiplayer
+app.get('/api/lobbies', (req, res) => {
+  const lobbies = getActiveLobbies();
+  res.json({ lobbies });
+});
+
+// Player Profile API Routes
+
+// GET /api/avatars - Get available avatars
+app.get('/api/avatars', (req, res) => {
+  res.json({ avatars: getAvatars() });
+});
+
+// GET /api/players/me - Get current player profile (mock for MVP, uses playerId query param)
+app.get('/api/players/me', (req, res) => {
+  const playerId = req.query.playerId;
+  if (!playerId) {
+    return res.status(400).json({ error: 'playerId required' });
+  }
+  const player = getPlayer(playerId);
+  if (!player) {
+    return res.status(404).json({ error: 'Player not found' });
+  }
+  res.json({ player });
+});
+
+// PUT /api/players/me - Update current player profile
+app.put('/api/players/me', (req, res) => {
+  const playerId = req.query.playerId;
+  if (!playerId) {
+    return res.status(400).json({ error: 'playerId required' });
+  }
+  const player = updatePlayer(playerId, req.body);
+  if (!player) {
+    return res.status(404).json({ error: 'Player not found' });
+  }
+  res.json({ player });
+});
+
+// GET /api/players/me/stats - Get player statistics
+app.get('/api/players/me/stats', (req, res) => {
+  const playerId = req.query.playerId;
+  if (!playerId) {
+    return res.status(400).json({ error: 'playerId required' });
+  }
+  const stats = getPlayerStats(playerId);
+  if (!stats) {
+    return res.status(404).json({ error: 'Player not found' });
+  }
+  res.json({ stats });
+});
+
+// GET /api/players/leaderboard - Get top players by wins
+app.get('/api/players/leaderboard', (req, res) => {
+  const limit = parseInt(req.query.limit) || 10;
+  const leaderboard = getLeaderboard(limit);
+  res.json({ leaderboard });
+});
+
 // Routes
 app.get('/', (req, res) => {
-  res.render('index', { game });
+  res.render('index', { game, lobbies: [] });
 });
 
 app.post('/setup', (req, res) => {
@@ -76,6 +147,14 @@ app.get('/game', (req, res) => {
     return res.redirect('/');
   }
   res.render('game', { game });
+});
+
+app.get('/online', (req, res) => {
+  const playerId = req.query.playerId;
+  if (!playerId) {
+    return res.redirect('/');
+  }
+  res.render('online', { playerId });
 });
 
 app.post('/play', (req, res) => {
@@ -141,6 +220,8 @@ app.get('/restart', (req, res) => {
   res.redirect('/game');
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Super Tic Tac Toe running at http://localhost:${PORT}`);
+  console.log(`WebSocket server running at ws://localhost:${PORT}/ws`);
 });
