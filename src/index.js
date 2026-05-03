@@ -1,6 +1,6 @@
 const express = require('express');
 const http = require('http');
-const { initWebSocketServer, getActiveLobbies } = require('./lib/websocket');
+const { createWebSocketServer, getActiveLobbies } = require('./lib/websocket');
 const { createPlayer, getPlayer, updatePlayer, getPlayerStats, getAvatars, getLeaderboard, updatePlayerStats } = require('./lib/players');
 const authRouter = require('./lib/auth');
 
@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 
 // Initialize WebSocket server
-initWebSocketServer(server);
+createWebSocketServer(server);
 
 // View engine
 app.set('view engine', 'ejs');
