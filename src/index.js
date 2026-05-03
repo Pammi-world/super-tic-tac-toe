@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { initWebSocketServer, getActiveLobbies } = require('./lib/websocket');
 const { createPlayer, getPlayer, updatePlayer, getPlayerStats, getAvatars, getLeaderboard, updatePlayerStats } = require('./lib/players');
+const authRouter = require('./lib/auth');
 
 const app = express();
 const server = http.createServer(app);
@@ -18,6 +19,9 @@ app.set('views', './views');
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Authentication routes
+app.use('/api/auth', authRouter);
 
 // Types
 /** @typedef {{ name: string, symbol: string }} Player */
