@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Super Tic Tac Toe</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .portfolio-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--card-bg, #2a2a3e);
+      border-radius: 12px;
+    }
+    .avatar-large {
+      font-size: 4rem;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent, #6c5ce7);
+      border-radius: 50%;
+    }
+    .profile-info h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+    }
+    .profile-info .username {
+      color: #888;
+      margin: 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .stat-card {
+      background: var(--card-bg, #2a2a3e);
+      padding: 1.25rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent, #6c5ce7);
+    }
+    .stat-label {
+      color: #888;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .avatars-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--card-bg, #2a2a3e);
+      border-radius: 12px;
+    }
+    .avatars-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .avatar-option {
+      font-size: 2rem;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .avatar-option:hover {
+      background: #252540;
+      transform: scale(1.1);
+    }
+    .avatar-option.selected {
+      border-color: var(--accent, #6c5ce7);
+      background: #252540;
+    }
+    .leaderboard-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--card-bg, #2a2a3e);
+      border-radius: 12px;
+    }
+    .leaderboard-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+    }
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid #333;
+    }
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+    .rank {
+      font-size: 1.25rem;
+      width: 32px;
+      color: #888;
+    }
+    .rank-1 { color: #ffd700; }
+    .rank-2 { color: #c0c0c0; }
+    .rank-3 { color: #cd7f32; }
+    .leaderboard-avatar {
+      font-size: 1.5rem;
+    }
+    .leaderboard-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    .leaderboard-wins {
+      color: var(--accent, #6c5ce7);
+      font-weight: bold;
+    }
+    .section-title {
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent, #6c5ce7);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .service-card {
+      padding: 1.5rem;
+      background: var(--card-bg, #2a2a3e);
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .service-name {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .service-desc {
+      color: #888;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="portfolio-container">
+      <h1>🎮 Player Portfolio</h1>
+      
+      <!-- Services/Features Overview -->
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🏆</div>
+          <div class="service-name">Leaderboards</div>
+          <div class="service-desc">Compete with players worldwide</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎨</div>
+          <div class="service-name">Custom Avatars</div>
+          <div class="service-desc">Express yourself with unique avatars</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <div class="service-name">Statistics</div>
+          <div class="service-desc">Track your gaming performance</div>
+        </div>
+      </div>
+
+      <!-- Player Profile Header -->
+      <div class="profile-header">
+        <div class="avatar-large"><%= player?.avatarId ? (avatars.find(a => a.id === player.avatarId)?.emoji || '🎮') : '🎮' %></div>
+        <div class="profile-info">
+          <h2><%= player?.displayName || 'Guest Player' %></h2>
+          <p class="username">@<%= player?.username || 'guest' %></p>
+          <% if (player) { %>
+          <a href="/api/auth/logout" class="btn" style="margin-top: 0.5rem;">Logout</a>
+          <% } else { %>
+          <a href="/online?create=true" class="btn" style="margin-top: 0.5rem;">Create Profile</a>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Player Stats -->
+      <h3 class="section-title">📊 Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value"><%= stats?.gamesPlayed || 0 %></div>
+          <div class="stat-label">Games Played</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= stats?.gamesWon || 0 %></div>
+          <div class="stat-label">Wins</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= stats?.winRate || 0 %>%</div>
+          <div class="stat-label">Win Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= stats?.bestWinStreak || 0 %></div>
+          <div class="stat-label">Best Streak</div>
+        </div>
+      </div>
+
+      <!-- Avatar Selection -->
+      <% if (player) { %>
+      <div class="avatars-section">
+        <h3 class="section-title">🎨 Choose Avatar</h3>
+        <div class="avatars-grid">
+          <% avatars.forEach(avatar => { %>
+          <div class="avatar-option <%= player.avatarId === avatar.id ? 'selected' : '' %>" 
+               data-id="<%= avatar.id %>"
+               title="<%= avatar.name %>">
+            <%= avatar.emoji %>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <% } %>
+
+      <!-- Leaderboard -->
+      <div class="leaderboard-section">
+        <h3 class="section-title">🏆 Top Players</h3>
+        <% if (leaderboard && leaderboard.length > 0) { %>
+        <ul class="leaderboard-list">
+          <% leaderboard.forEach((entry, index) => { %>
+          <li class="leaderboard-item">
+            <span class="rank rank-<%= index + 1 %>">#<%= index + 1 %></span>
+            <span class="leaderboard-avatar"><%= avatars.find(a => a.id === entry.avatarId)?.emoji || '🎮' %></span>
+            <span class="leaderboard-name"><%= entry.displayName %></span>
+            <span class="leaderboard-wins"><%= entry.gamesWon %> wins</span>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <p style="color: #888; text-align: center; padding: 2rem;">
+          No players yet. Be the first to play!
+        </p>
+        <% } %>
+      </div>
+
+      <a href="/" class="btn">← Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    // Avatar selection handling
+    document.querySelectorAll('.avatar-option').forEach(option => {
+      option.addEventListener('click', async () => {
+        const avatarId = option.dataset.id;
+        try {
+          const res = await fetch(`/api/players/me?playerId=<%= player?.id %>`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ avatarId })
+          });
+          if (res.ok) {
+            location.reload();
+          }
+        } catch (err) {
+          console.error('Failed to update avatar:', err);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
