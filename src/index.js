@@ -231,6 +231,17 @@ app.post('/api/contact', (req, res) => {
   res.redirect('/?contact=success');
 });
 
+// Portfolio page - shows player stats, avatars, leaderboard
+app.get('/portfolio', (req, res) => {
+  const playerId = req.query.playerId;
+  const player = playerId ? getPlayer(playerId) : null;
+  const stats = player ? getPlayerStats(playerId) : null;
+  const avatars = getAvatars();
+  const leaderboard = getLeaderboard(10);
+  
+  res.render('portfolio', { player, stats, avatars, leaderboard });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Super Tic Tac Toe running at http://localhost:${PORT}`);
