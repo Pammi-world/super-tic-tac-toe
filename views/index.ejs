@@ -3,45 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Tic Tac Toe</title>
+  <title>Super Tic Tac Toe - Ultimate 3×3×3 Tic Tac Toe Game</title>
+  <meta name="description" content="Play Super Tic Tac Toe - the ultimate strategy game. 3×3 boards of 3×3! Challenge friends or test your skills against AI.">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="container">
-    <h1>🎯 Super Tic Tac Toe</h1>
-    <p class="tagline">Ultimate Tic Tac Toe - 3×3 boards of 3×3!</p>
+    <!-- Hero Section -->
+    <header class="hero">
+      <h1>🎯 Super Tic Tac Toe</h1>
+      <p class="tagline">The Ultimate Strategy Game — 3×3 boards of 3×3!</p>
+      <p class="hero-description">
+        Think Tic Tac Toe is too easy? Think again. Play on nine boards at once. 
+        Win a small board to claim its cell in the mega board. First to 3 in a row wins!
+      </p>
+      <a href="#play" class="btn btn-lg">Play Now</a>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+      <h2>About the Game</h2>
+      <div class="about-content">
+        <p>
+          Super Tic Tac Toe (also known as Ultimate Tic Tac Toe or Tic Tac Toe 3×3×3) 
+          is an epic strategy game that takes the classic paper-and-pencil game to a whole new level.
+        </p>
+        <p>
+          Instead of playing on a single 3×3 grid, you play on <strong>nine</strong> boards simultaneously! 
+          Each small win earns you a powerful piece for the grand board.
+        </p>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <h3>🎮 Multi-Board Action</h3>
+          <p>9 boards. Infinite possibilities. Every move affects multiple game boards.</p>
+        </div>
+        <div class="feature">
+          <h3>🧠 Strategy Required</h3>
+          <p>It takes real skill to master. Simple enough to learn, hard to master!</p>
+        </div>
+        <div class="feature">
+          <h3>⚡ Quick Matches</h3>
+          <p>Fast-paced rounds that keep you on your toes. Perfect for quick breaks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Play -->
+    <section class="how-to-play">
+      <h2>How to Play</h2>
+      <ol class="rules-list">
+        <li><span class="step">1</span> The game has <strong>9 small boards</strong> arranged in a 3×3 grid</li>
+        <li><span class="step">2</span> To win a small board, get <strong>3 in a row</strong> (X or O)</li>
+        <li><span class="step">3</span> Winning a small board claims that cell in the <strong>big board</strong></li>
+        <li><span class="step">4</span> <strong>Special rule:</strong> If you play in a corner of a small board, your opponent must play in the corresponding corner of another board!</li>
+        <li><span class="step">5</span> First to win <strong>3 small boards in a row</strong> on the big board wins the game!</li>
+      </ol>
+    </section>
+
+    <!-- Play Section -->
+    <section id="play" class="play-section">
+      <h2>Start a Game</h2>
+      <form action="/setup" method="POST" class="setup-form">
+        <div class="form-group">
+          <label for="mode">Game Mode</label>
+          <select name="mode" id="mode">
+            <option value="hotseat">Hot Seat (2 Players)</option>
+            <option value="ai">vs AI (Coming Soon)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="player1">Player 1 Name</label>
+          <input type="text" name="player1" id="player1" placeholder="Enter name" required>
+        </div>
+        
+        <div class="form-group" id="player2-group">
+          <label for="player2">Player 2 Name</label>
+          <input type="text" name="player2" id="player2" placeholder="Enter name">
+        </div>
+        
+        <button type="submit" class="btn">Start Game</button>
+      </form>
+    </section>
     
-    <form action="/setup" method="POST" class="setup-form">
-      <div class="form-group">
-        <label>Game Mode</label>
-        <select name="mode" id="mode">
-          <option value="hotseat">Hot Seat (2 Players)</option>
-          <option value="ai">vs AI</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label>Player 1 Name</label>
-        <input type="text" name="player1" placeholder="Enter name" required>
-      </div>
-      
-      <div class="form-group" id="player2-group">
-        <label>Player 2 Name</label>
-        <input type="text" name="player2" placeholder="Enter name">
-      </div>
-      
-      <button type="submit" class="btn">Start Game</button>
-    </form>
-    
-    <div class="rules">
-      <h3>Rules</h3>
-      <ul>
-        <li>3×3 grid of 3×3 boards</li>
-        <li>Win a small board to claim that cell in the big board</li>
-        <li><strong>Special:</strong> Next player must play in the board matching their move position!</li>
-        <li>First to win 3 in a row on the big board wins!</li>
-      </ul>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built with ❤️ for strategy game lovers</p>
+    </footer>
   </div>
   
   <script>

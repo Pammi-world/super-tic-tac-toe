@@ -344,3 +344,152 @@ h1 {
     width: 100%;
   }
 }
+/* -------------------- Hero Section -------------------- */
+.hero {
+  padding: var(--space-12) 0;
+  text-align: center;
+}
+
+.hero .tagline {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
+}
+
+.hero-description {
+  max-width: 600px;
+  margin: 0 auto var(--space-8);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  font-size: var(--font-size-lg);
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-10);
+  font-size: var(--font-size-lg);
+}
+
+/* -------------------- About Section -------------------- */
+.about {
+  background: var(--color-surface);
+  padding: var(--space-8);
+  border-radius: var(--border-radius-lg);
+  margin: var(--space-8) 0;
+  text-align: left;
+}
+
+.about h2,
+.how-to-play h2,
+.play-section h2 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.about-content p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Features */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.feature {
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.feature h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.feature p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* -------------------- How to Play -------------------- */
+.how-to-play {
+  padding: var(--space-8);
+  text-align: left;
+}
+
+.rules-list {
+  list-style: none;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.rules-list li {
+  padding: var(--space-3) 0;
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.rules-list .step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 50%;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+/* -------------------- Play Section -------------------- */
+.play-section {
+  padding: var(--space-8) 0;
+  text-align: center;
+}
+
+.play-section .setup-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* -------------------- Footer -------------------- */
+.footer {
+  margin-top: var(--space-12);
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--color-text-dim);
+  font-size: var(--font-size-sm);
+}
+
+/* -------------------- Enhanced Responsive -------------------- */
+@media (max-width: 600px) {
+  .hero {
+    padding: var(--space-8) 0;
+  }
+  
+  .hero .tagline {
+    font-size: var(--font-size-lg);
+  }
+  
+  .hero-description {
+    font-size: var(--font-size-base);
+  }
+  
+  .about,
+  .how-to-play,
+  .play-section {
+    padding: var(--space-6);
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
