@@ -220,6 +220,17 @@ app.get('/restart', (req, res) => {
   res.redirect('/game');
 });
 
+// Contact form handler
+app.post('/api/contact', (req, res) => {
+  const { name, email, message } = req.body;
+  
+  // For MVP, just log the contact submission
+  // In production, would send email or store in database
+  console.log(`Contact form submission from ${name} (${email}): ${message}`);
+  
+  res.redirect('/?contact=success');
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Super Tic Tac Toe running at http://localhost:${PORT}`);
