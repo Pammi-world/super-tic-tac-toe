@@ -223,5 +223,5 @@ app.get('/restart', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Super Tic Tac Toe running at http://localhost:${PORT}`);
-  console.log(`WebSocket server running at ws://localhost:${PORT}/ws`);
+  console.log(`WebSocket server running at ws://localhost:${PORT}/game`);
 });
