@@ -76,7 +76,13 @@ app.get('/api/lobbies', (req, res) => {
   res.json({ lobbies });
 });
 
-// Player Profile API Routes
+// Player Profile routes
+
+// GET /profile - Player profile page
+app.get('/profile', (req, res) => {
+  const playerId = req.query.playerId || null;
+  res.render('profile', { playerId });
+});
 
 // GET /api/avatars - Get available avatars
 app.get('/api/avatars', (req, res) => {

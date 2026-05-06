@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Profile - Super Tic Tac Toe</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .profile-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .avatar-preview {
+      font-size: 4rem;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+      border: 3px solid var(--border-color);
+    }
+    .profile-name {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .profile-form {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.5rem;
+    }
+    .avatar-option {
+      font-size: 2rem;
+      padding: 0.5rem;
+      background: var(--bg-primary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .avatar-option:hover {
+      border-color: var(--accent-primary);
+      transform: scale(1.1);
+    }
+    .avatar-option.selected {
+      border-color: var(--accent-primary);
+      background: var(--accent-secondary);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+    .btn-save {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.125rem;
+    }
+    .error {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-container">
+      <a href="/" class="btn">← Back to Home</a>
+      
+      <div class="profile-header">
+        <div class="avatar-preview" id="avatarPreview">🎮</div>
+        <div>
+          <h1 class="profile-name" id="displayNamePreview">Player</h1>
+          <p style="color: var(--text-secondary); margin: 0;">Edit your profile</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="statGamesPlayed">0</div>
+          <div class="stat-label">Games</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statWins">0</div>
+          <div class="stat-label">Wins</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statWinRate">0%</div>
+          <div class="stat-label">Win Rate</div>
+        </div>
+      </div>
+
+      <form class="profile-form" id="profileForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required minlength="2" maxlength="20">
+        </div>
+        
+        <div class="form-group">
+          <label for="displayName">Display Name</label>
+          <input type="text" id="displayName" name="displayName" placeholder="How others see you" maxlength="30">
+        </div>
+        
+        <div class="form-group">
+          <label>Choose Avatar</label>
+          <div class="avatar-grid" id="avatarGrid"></div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-save">Save Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Avatar options
+    const avatars = [
+      { id: 'default', emoji: '🎮', name: 'Gamer' },
+      { id: 'robot', emoji: '🤖', name: 'Robot' },
+      { id: 'alien', emoji: '👽', name: 'Alien' },
+      { id: 'ghost', emoji: '👻', name: 'Ghost' },
+      { id: 'dragon', emoji: '🐉', name: 'Dragon' },
+      { id: 'ninja', emoji: '🥷', name: 'Ninja' },
+      { id: 'wizard', emoji: '🧙', name: 'Wizard' },
+      { id: 'pirate', emoji: '🏴‍☠️', name: 'Pirate' },
+      { id: 'astronaut', emoji: '🚀', name: 'Astronaut' },
+      { id: 'king', emoji: '🤴', name: 'King' },
+      { id: 'queen', emoji: '👸', name: 'Queen' },
+      { id: 'cat', emoji: '🐱', name: 'Cat' }
+    ];
+
+    let selectedAvatar = 'default';
+    let playerId = localStorage.getItem('playerId') || crypto.randomUUID();
+    localStorage.setItem('playerId', playerId);
+
+    // Render avatar grid
+    const avatarGrid = document.getElementById('avatarGrid');
+    avatars.forEach(avatar => {
+      const option = document.createElement('div');
+      option.className = 'avatar-option' + (avatar.id === selectedAvatar ? ' selected' : '');
+      option.textContent = avatar.emoji;
+      option.title = avatar.name;
+      option.dataset.id = avatar.id;
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedAvatar = avatar.id;
+        document.getElementById('avatarPreview').textContent = avatar.emoji;
+      });
+      avatarGrid.appendChild(option);
+    });
+
+    // Live preview
+    document.getElementById('username').addEventListener('input', (e) => {
+      const name = e.target.value || 'Player';
+      document.getElementById('displayNamePreview').textContent = name;
+    });
+
+    document.getElementById('displayName').addEventListener('input', (e) => {
+      const name = e.target.value || document.getElementById('username').value || 'Player';
+      document.getElementById('displayNamePreview').textContent = name;
+    });
+
+    // Load existing profile
+    async function loadProfile() {
+      try {
+        const res = await fetch(`/api/players/me?playerId=${playerId}`);
+        if (res.ok) {
+          const data = await res.json();
+          const player = data.player;
+          document.getElementById('username').value = player.username;
+          document.getElementById('displayName').value = player.displayName || '';
+          document.getElementById('displayNamePreview').textContent = player.displayName || player.username;
+          
+          // Select avatar
+          selectedAvatar = player.avatarId || 'default';
+          const avatar = avatars.find(a => a.id === selectedAvatar) || avatars[0];
+          document.getElementById('avatarPreview').textContent = avatar.emoji;
+          document.querySelectorAll('.avatar-option').forEach(o => {
+            o.classList.toggle('selected', o.dataset.id === selectedAvatar);
+          });
+
+          // Load stats
+          loadStats();
+        }
+      } catch (e) {
+        console.log('No existing profile');
+      }
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`/api/players/me/stats?playerId=${playerId}`);
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('statGamesPlayed').textContent = data.stats.gamesPlayed;
+          document.getElementById('statWins').textContent = data.stats.gamesWon;
+          document.getElementById('statWinRate').textContent = data.stats.winRate + '%';
+        }
+      } catch (e) {
+        console.log('No stats');
+      }
+    }
+
+    // Save profile
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value.trim();
+      const displayName = document.getElementById('displayName').value.trim() || username;
+      
+      if (username.length < 2) {
+        alert('Username must be at least 2 characters');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/players/me?playerId=${playerId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            displayName,
+            avatarId: selectedAvatar
+          })
+        });
+
+        if (res.ok) {
+          alert('Profile saved!');
+          loadStats();
+        } else {
+          const data = await res.json();
+          alert(data.error || 'Failed to save profile');
+        }
+      } catch (e) {
+        alert('Error saving profile');
+      }
+    });
+
+    // Initialize
+    loadProfile();
+  </script>
+</body>
+</html>
